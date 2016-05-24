@@ -1,9 +1,14 @@
 import atexit
 import time
 
+try:
+    from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+except ImportError:
+    # Python 3
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
 import pynvml
-from prometheus_client import make_wsgi_app
-from wsgiref.simple_server import make_server
+from prometheus_client import MetricsHandler
 
 from .stats import NvidiaStats
 from .prometheus_metrics import build_metrics
@@ -14,8 +19,8 @@ if __name__ == '__main__':
         atexit.register(pynvml.nvmlShutdown)
 
         build_metrics()
-        app = make_wsgi_app()
-        httpd = make_server('', 9200, app)
+        httpd = HTTPServer(('', 9200), MetricsHandler)
         httpd.serve_forever()
+
     except pynvml.NVMLError, err:
         print("NVML error: %s" % err)
