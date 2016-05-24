@@ -24,7 +24,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'nvidia_exporter = nvidia_exporter.main'
+            'nvidia_exporter = nvidia_exporter.main.main'
         ]
     }
 )

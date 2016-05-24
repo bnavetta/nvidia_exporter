@@ -13,7 +13,7 @@ from prometheus_client import MetricsHandler
 from .stats import NvidiaStats
 from .prometheus_metrics import build_metrics
 
-if __name__ == '__main__':
+def main():
     try:
         pynvml.nvmlInit()
         atexit.register(pynvml.nvmlShutdown)
@@ -24,3 +24,6 @@ if __name__ == '__main__':
 
     except pynvml.NVMLError, err:
         print("NVML error: %s" % err)
+
+if __name__ == '__main__':
+    main()
