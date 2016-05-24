@@ -23,15 +23,21 @@ class NvidiaStats(object):
 
     def device_fan_speed(self, index):
         """Fan speed as a percentage"""
-        return int(pynvml.nvmlDeviceGetFanSpeed(self._device(index))
+        return int(pynvml.nvmlDeviceGetFanSpeed(self._device(index)))
 
     def device_power_usage(self, index):
         """Power usage in milliwats"""
-        return int(pynvml.nvmlDeviceGetPowerUsage(self._device(index)))
+	try:
+            return int(pynvml.nvmlDeviceGetPowerUsage(self._device(index)))
+        except pynvml.NVMLError:
+            return -1
 
     def device_power_limit(self, index):
         """Power management limit in milliwats"""
-        return int(pynvml.nvmlDeviceGetPowerManagementLimit(self._device(index))
+        try:
+            return int(pynvml.nvmlDeviceGetPowerManagementLimit(self._device(index)))
+        except pynvml.NVMLError:
+            return -1
 
     def device_free_memory(self, index):
         return int(pynvml.nvmlDeviceGetMemoryInfo(self._device(index)).free)
