@@ -1,6 +1,6 @@
 from .stats import NvidiaStats
 
-from prometheus_client import Gague
+from prometheus_client import Gauge
 
 def build_metrics():
     stats = NvidiaStats()
@@ -16,7 +16,7 @@ def build_metrics():
         gpu_temp.labels(label_values).set_function(lambda: stats.gpu_temp(device_index))
 
         fan_speed = Gauge('nvidia_fan_speed', 'Fan speed (percentage)', label_names)
-        fan_speed.labels(label_values).set_function(lambda: stats.fan_speed(device_index))
+        fan_speed.labels(label_values).set_function(lambda: stats.device_fan_speed(device_index))
 
         power_usage = Gauge('nvidia_power_usage', 'Power usage (milliwats)', label_names)
         power_usage.labels(label_values).set_function(lambda: stats.device_power_usage(device_index))

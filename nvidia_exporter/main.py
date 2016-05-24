@@ -1,4 +1,5 @@
 import atexit
+import time
 
 import pynvml
 import prometheus_client
@@ -25,6 +26,8 @@ if __name__ == '__main__':
 
         build_metrics()
         prometheus_client.start_http_server(9200)
+        while True:
+            time.sleep(10)	
 
     except pynvml.NVMLError, err:
         print("NVML error: %s" % err)
