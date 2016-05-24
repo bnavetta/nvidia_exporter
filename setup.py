@@ -21,5 +21,10 @@ setup(
     install_requires=[
         'nvidia-ml-py',
         'prometheus_client'
-    ]
+    ],
+    entry_points={
+        'console_scripts': [
+            'nvidia_exporter = nvidia_exporter.main'
+        ]
+    }
 )
