@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 import pynvml
 
 class NvidiaStats(object):
