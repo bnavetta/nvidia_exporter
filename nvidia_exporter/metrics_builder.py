@@ -17,11 +17,11 @@ def build_metrics():
     driver_version = nvmlSystemGetDriverVersion()
 
     device_count_metric = Gague('nvidia_device_count', 'Number of compute devices in the system', [DRIVER_VERSION_LABEL])
-    device_count_metric.labels(driver_version).set_function(lambda: return int(nvmlDeviceGetCount())) # Could change if a GPU dies
+    device_count_metric.labels(driver_version).set_function(lambda: int(nvmlDeviceGetCount())) # Could change if a GPU dies
 
     for device_index in range(device_count):
         handle = nvmlDeviceGetHandleByIndex(device_index)
         name = nvmlDeviceGetName(handle)
 
         for metric in metrics:
-            metric.promethus_metric.labels(device_index, name, driver_version).set_function(lambda: return metric.collect(handle))
+            metric.promethus_metric.labels(device_index, name, driver_version).set_function(lambda: metric.collect(handle))
