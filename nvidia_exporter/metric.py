@@ -1,4 +1,4 @@
-from prometheus_client import Gague
+from prometheus_client import Gauge
 from pynvml import *
 
 DEVICE_INDEX_LABEL = 'device_index'
@@ -15,7 +15,7 @@ class Metric(object):
     def promethus_metric(self):
         # TODO: support non-gague metrics
         if not self._prometheus_metric:
-            self._prometheus_metric = Gague('nvidia_' + self.name, self.description, [DEVICE_INDEX_LABEL, DEVICE_NAME_LABEL, DRIVER_VERSION_LABEL])
+            self._prometheus_metric = Gauge('nvidia_' + self.name, self.description, [DEVICE_INDEX_LABEL, DEVICE_NAME_LABEL, DRIVER_VERSION_LABEL])
         return self._prometheus_metric
 
 class TemperatureMetric(Metric):

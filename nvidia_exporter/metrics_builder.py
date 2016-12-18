@@ -1,5 +1,5 @@
 from pynvml import *
-from prometheus_client import Gague
+from prometheus_client import Gauge
 
 from .metric import *
 
@@ -16,7 +16,7 @@ def build_metrics():
     device_count = int(nvmlDeviceGetCount())
     driver_version = nvmlSystemGetDriverVersion()
 
-    device_count_metric = Gague('nvidia_device_count', 'Number of compute devices in the system', [DRIVER_VERSION_LABEL])
+    device_count_metric = Gauge('nvidia_device_count', 'Number of compute devices in the system', [DRIVER_VERSION_LABEL])
     device_count_metric.labels(driver_version).set_function(lambda: int(nvmlDeviceGetCount())) # Could change if a GPU dies
 
     for device_index in range(device_count):
