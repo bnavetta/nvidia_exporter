@@ -1,25 +1,21 @@
 import atexit
-import time
-
-try:
-    from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-except ImportError:
-    # Python 3
-    from http.server import BaseHTTPRequestHandler, HTTPServer
+import sys
 
 import pynvml
 from prometheus_client import MetricsHandler
 
-from .stats import NvidiaStats
-from .prometheus_metrics import build_metrics
+from .metrics_builder import build_metrics
 
 def main():
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 9200
+
     try:
         pynvml.nvmlInit()
         atexit.register(pynvml.nvmlShutdown)
 
         build_metrics()
-        httpd = HTTPServer(('', 9200), MetricsHandler)
+
+        httpd = HTTPServer(('', port), MetricsHandler)
         httpd.serve_forever()
 
     except pynvml.NVMLError, err:
