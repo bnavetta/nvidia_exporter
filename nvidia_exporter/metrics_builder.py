@@ -9,7 +9,7 @@ def build_metrics():
         TotalMemoryMetric(), FreeMemoryMetric(), UsedMemoryMetric(),
         GPUUtilizationMetric(), MemoryUtilizationMetric(),
         PowerUsageMetric(), PowerManagementLimitMetric(),
-        ECCDoubleBitErrorsMetric(), ECCSingleBitErrorsMetric(),
+        # ECCDoubleBitErrorsMetric(), ECCSingleBitErrorsMetric(), # doesn't seem to be supported
         ProcessCountMetric()
     ]
 
@@ -24,4 +24,4 @@ def build_metrics():
         name = nvmlDeviceGetName(handle)
 
         for metric in metrics:
-            metric.promethus_metric.labels(device_index, name, driver_version).set_function(lambda: metric.collect(handle))
+            metric.prometheus_metric.labels(device_index, name, driver_version).set_function(metric.collect_fn(handle))

@@ -1,6 +1,11 @@
 import atexit
 import sys
 
+try:
+    from BaseHTTPServer import HTTPServer
+except ImportError:
+     from http.server import HTTPServer
+
 import pynvml
 from prometheus_client import MetricsHandler
 
@@ -15,11 +20,12 @@ def main():
 
         build_metrics()
 
+        print('Starting on port {}'.format(port))
         httpd = HTTPServer(('', port), MetricsHandler)
         httpd.serve_forever()
 
     except pynvml.NVMLError, err:
-        print("NVML error: %s" % err)
+        print('NVML error: {}'.format(err))
 
 if __name__ == '__main__':
     main()
