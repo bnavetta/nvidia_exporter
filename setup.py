@@ -10,7 +10,7 @@ with open('LICENSE') as f:
 
 setup(
     name='nvidia_exporter',
-    version='1.1.0',
+    version='1.1.1',
     description='Prometheus exporter for NVIDIA GPU information',
     long_description=readme,
     author='Ben Navetta',
