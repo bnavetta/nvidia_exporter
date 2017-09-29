@@ -9,7 +9,7 @@ except ImportError:
 import pynvml
 from prometheus_client import MetricsHandler
 
-from .metrics_builder import build_metrics
+from .standard_metrics import register_standard_metrics
 
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 9200
@@ -18,7 +18,7 @@ def main():
         pynvml.nvmlInit()
         atexit.register(pynvml.nvmlShutdown)
 
-        build_metrics()
+        register_standard_metrics()
 
         print('Starting on port {}'.format(port))
         httpd = HTTPServer(('', port), MetricsHandler)
