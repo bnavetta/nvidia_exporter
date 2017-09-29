@@ -1,4 +1,3 @@
-import functools
 from prometheus_client import Gauge
 from pynvml import *
 
@@ -12,7 +11,14 @@ class Metric(object):
 
     def metric_for(self, device_name, device_index, device_handle):
         m = self._base_metric.labels(device_index=device_index, device_name=device_name)
-        m.set_function(functools.partial(self._collect, device_handle))
+
+        def collect():
+            try:
+                return self._collect(device_handle)
+            except:
+                return 0
+
+        m.set_function(collect)
         return m
 
 # Metrics from v1 that don't seem super useful
