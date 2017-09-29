@@ -8,7 +8,7 @@ class Metric(object):
 
     def __init__(self, name, description, collect_fn):
         self._collect = collect_fn
-        self._base_metric = Gauge('nvidia_' + self.name, self.description, ['device_index', 'device_name'])
+        self._base_metric = Gauge('nvidia_' + name, description, ['device_index', 'device_name'])
 
     def metric_for(self, device_name, device_index, device_handle):
         m = self._base_metric.labels(device_index=device_index, device_name=device_name)
